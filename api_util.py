@@ -1,7 +1,9 @@
+#Necessary imports
 from googleapiclient.discovery import build
 import pandas as pd
 from IPython.display import JSON
 
+#api key from google console studio
 api_key='AIzaSyCj5HNsWQhofh818lYZeo6h1lUMr-7e58E'
 
 channel_ids = ['UCSUf5_EPEfl4zlBKZHkZdmw',
@@ -12,6 +14,8 @@ api_service_name = "youtube"
 api_version = "v3"
 youtube = build(api_service_name, api_version, developerKey=api_key)
 
+
+#Utility functions
 def get_channel_stats(youtube, channel_ids):
     all_data = []
     request = youtube.channels().list(
@@ -30,10 +34,6 @@ def get_channel_stats(youtube, channel_ids):
         }
         all_data.append(data)
     return pd.DataFrame(all_data)
-
-
-
-
 
 def get_video_ids(youtube, playlist_id):
     
@@ -65,10 +65,6 @@ def get_video_ids(youtube, playlist_id):
         
     return video_ids
 
-
-
-
-
 def get_video_details(youtube, video_ids):
 
     all_video_info = []
@@ -99,7 +95,7 @@ def get_video_details(youtube, video_ids):
     
     return pd.DataFrame(all_video_info)
 
-
+#Create data frame of channel
 channel_stats = get_channel_stats(youtube, channel_ids)
 playlist_id = channel_stats['playlistId'][0]
 video_ids=get_video_ids(youtube, playlist_id)
